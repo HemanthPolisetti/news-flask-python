@@ -1,0 +1,109 @@
+{%extends "base.html"%}
+{%block styles%}
+<link rel="stylesheet" href="{{url_for('static', filename="styles/main.css")}}">
+{%endblock%}
+{%block body%}
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Food-HUB</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <form action="/newrecipe" method="POST" enctype="multipart/form-data">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">NEW RECEIPE</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                    <input type="text" class="form-control" name="recipe_name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message-text" class="col-form-label">PROCEDURE:</label>
+                                    <textarea class="form-control" name="receipe_making"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message-text" class="col-form-label">DESC:</label>
+                                    <textarea class="form-control" name="desc"></textarea>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Uplaod Receipe image</label>
+                                <input class="form-control" type="file" name="fileinput">
+                              </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <input type="submit" class="btn btn-primary" ></input>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"></a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+               <img src="static\styles\images\food.jpg" height=auto width=50px>
+            </span>
+        </div>
+    </div>
+</nav>
+
+{% if isEmpty %}
+    <h1> No Prends </h1>
+{% else %}
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        {% if not isEmpty %}
+            {% for receipe in receipes  %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to={{receipe.id-1}} class="active"
+                aria-current="true" aria-label={{"Slide {}".format(receipe.id)}}></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner" style="display:flex; justify-content: center; transform: translateX(-350px);">
+            {% for receipe in receipes %}
+                {% if receipe.id == id %}
+                <div class="carousel-item active">
+                    <a href={{"/cb/{}".format(receipe.id)}}><img src={{receipe.image_path}} height="auto" width="550px" class="img-fluid"
+                            alt={{receipe.receipe_name}}></a>
+                        <div class="toi" ><h4>Receipe</h4><p>{{receipe.receipe_name}}</p></div>
+                </div>
+                {% else %}
+                <div class="carousel-item">
+                    <a href={{"/cb/{}".format(receipe.id)}}><img src={{receipe.image_path}} height="auto" width="550px" class="img-fluid"
+                            alt={{receipe.receipe_name}}></a>
+                            <div class="toi" ><h4>Receipe</h4><p>{{receipe.receipe_name}}</p></div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+{% endif %}
+{%endblock%}

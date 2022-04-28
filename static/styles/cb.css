@@ -1,0 +1,11 @@
+p{
+    font-family: 'EB Garamond', serif;
+    font-weight:inherit;
+    display:flex;
+    font-size:2rem;
+    color:black;
+} 
+.div{
+    display: grid;
+    place-items:center;
+}
